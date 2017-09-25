@@ -6,7 +6,7 @@
   "bsc-flags": ["-bs-super-errors"],
   "namespace": true,
   "sources": [
-    {"dir": "src"},
+    {"dir": "src", "public": "Std"},
     {"dir": "example", "type":"dev"}
   ]
 }
