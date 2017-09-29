@@ -44,14 +44,13 @@ let map3 f r1 r2 r3 =>
   | (Ready _, Ready _, Error x) => Error x
   };
 
-let chain f remote => 
+let flatMap f remote => 
   switch remote {
   | NotAsked => NotAsked
   | Pending => Pending
   | Error e => Error e
   | Ready x => f x
   };
-let bind = chain;
 
 let withDefault a rem => switch rem {
 | Ready a => a

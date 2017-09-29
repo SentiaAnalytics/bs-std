@@ -15,12 +15,10 @@ let map3 f opt1 opt2 opt3 =>  switch (opt1, opt2, opt3) {
 | _ => None
 };
 
-let chain f opt => switch opt {
+let flatMap f opt => switch opt {
   | None => None
   | Some x => (f x)
 };
-
-let bind = chain;
 
 let withDefault defaultValue opt => switch (opt) {
 | Some x => x

@@ -5,8 +5,7 @@ type t 'x 'a =
 let map : ('a => 'b) =>  t 'x 'a => t 'x 'b;
 let map2 : ('a => 'b => 'c) =>  t 'x 'a => t 'x 'b => t 'x 'c;
 let map3 : ('a => 'b => 'c => 'd) =>  t 'x 'a => t 'x 'b => t 'x 'c => t 'x 'd;
-let chain : ('a  => t 'x 'b) => t 'x 'a => t 'x 'b;
-let bind : ('a  => t 'x 'b) => t 'x 'a => t 'x 'b;
+let flatMap : ('a  => t 'x 'b) => t 'x 'a => t 'x 'b;
 let withDefault : 'a => t 'x 'a => 'a;
 let fromOption : 'x => option 'a =>  t 'x 'a;
 let toOption : t 'x 'a => option 'a;

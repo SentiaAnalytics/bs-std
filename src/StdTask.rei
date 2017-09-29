@@ -14,7 +14,7 @@ let map3 : ('a => 'b => 'c => 'd) => t 'x 'a => t 'x 'b => t 'x 'c => t 'x 'd;
 
 let biMap : ('x => 'y) => ('a => 'b) => t 'x 'a => t 'y 'b;
 
-let chain : ('a => t 'x 'b) => t 'x 'a => t 'x 'b;
+let flatMap : ('a => t 'x 'b) => t 'x 'a => t 'x 'b;
 
 let fold : ('x => 'b) => ('a => 'b) => t 'x 'a => t unit 'b;
 

@@ -29,7 +29,7 @@ let map3 f t1 t2 t3 =>
       });
     });
   });
-let chain f task => make (fun fail success => task fail (fun x => (f x) fail success));
+let flatMap f task => make (fun fail success => task fail (fun x => (f x) fail success));
 
 let biMap mapFail mapSuccess task =>
 make (

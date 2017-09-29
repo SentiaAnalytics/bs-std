@@ -22,12 +22,11 @@ let map3 f r1 r2 r3 => switch (r1, r2, r3) {
 };
 
 
-let chain f res => switch res {
+let flatMap f res => switch res {
 | Error x => Error x
 | Ok a => f a
 };
 
-let bind = chain;
 
 let withDefault a res => switch res {
 | Error _ => a

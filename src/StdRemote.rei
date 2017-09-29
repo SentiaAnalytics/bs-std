@@ -18,8 +18,7 @@ let map : ('a => 'b ) => t 'err 'a => t 'err 'b;
 let map2 : ('a => 'b => 'c) => t 'err 'a => t 'err 'b => t 'err 'c;
 let map3 : ('a => 'b => 'c => 'd) => t 'err 'a => t 'err 'b => t 'err 'c => t 'err 'd;
 
-let chain : ('a => t 'err 'b ) => t 'err 'a => t 'err 'b;
-let bind : ('a => t 'err 'b ) => t 'err 'a => t 'err 'b;
+let flatMap : ('a => t 'err 'b ) => t 'err 'a => t 'err 'b;
 
 let withDefault : 'a => t 'x 'a => 'a;
 
