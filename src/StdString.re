@@ -14,7 +14,6 @@ let sub start len str =>
     | Invalid_argument _ => ""
   };
 
-
 let concat x y => x ^ y;
 
 let join = String.concat;
