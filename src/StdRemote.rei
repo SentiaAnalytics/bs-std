@@ -23,7 +23,7 @@ let bind : ('a => t 'err 'b ) => t 'err 'a => t 'err 'b;
 
 let withDefault : 'a => t 'x 'a => 'a;
 
-let fromResult : Result.t 'x 'a => t 'x 'a;
+let fromResult : StdResult.t 'x 'a => t 'x 'a;
 let fromOption : option 'a => t 'x 'a;
   
 let isNotAsked : t 'err 'value => bool;

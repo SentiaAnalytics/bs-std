@@ -51,8 +51,8 @@ switch opt {
 
 let fromResult res =>
 switch res {
-| Result.Error err => fail err
-| Result.Ok v => succeed v
+| StdResult.Error err => fail err
+| StdResult.Ok v => succeed v
 };
 
 let delay ms => make (fun _ resolve => _setTimeout resolve ms);

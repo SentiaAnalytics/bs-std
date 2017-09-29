@@ -2,6 +2,7 @@
 let id a => a;
 
 
+
 let always a _ => a;
 
 let noOp  _ => ();
@@ -14,3 +15,6 @@ let tap f a =>  {
   f a;
   a;
 };
+
+StdList.length [];
+List.length [];

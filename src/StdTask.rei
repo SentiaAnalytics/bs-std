@@ -18,7 +18,7 @@ let chain : ('a => t 'x 'b) => t 'x 'a => t 'x 'b;
 
 let fold : ('x => 'b) => ('a => 'b) => t 'x 'a => t unit 'b;
 
-let fromResult : Result.t 'x 'a => t 'x 'a;
+let fromResult : StdResult.t 'x 'a => t 'x 'a;
 
 let fromOption : 'x => option 'a => t 'x 'a;
 

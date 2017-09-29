@@ -7,7 +7,6 @@
   "namespace": true,
   "bs-dependencies": [],
   "sources": [
-    {"dir": "src", "public": ["Std"]},
-    {"dir": "example", "type":"dev"}
+    {"dir": "src", "public": ["Std"]}
   ]
 }

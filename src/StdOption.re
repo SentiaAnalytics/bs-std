@@ -28,7 +28,7 @@ let withDefault defaultValue opt => switch (opt) {
 };
 
 let fromResult res => {
-  open Result;
+  open StdResult;
   switch res {
   | Error _ => None
   | Ok v => Some v
@@ -36,7 +36,7 @@ let fromResult res => {
 };
 
 let fromRemote res => {
-  open Remote;
+  open StdRemote;
   switch res {
   | Ready a => Some a
   | _ => None

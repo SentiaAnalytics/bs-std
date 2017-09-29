@@ -1,6 +1,7 @@
-module App = App;
-module Fun = Func;
-module Option = Option;
-module Remote = Remote;
-module Result = Result;
-module Task = Task;
+module Fun = StdFunc;
+module Option = StdOption;
+module Remote = StdRemote;
+module Result = StdResult;
+module Task = StdTask;
+module List = StdList;
+

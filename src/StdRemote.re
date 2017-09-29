@@ -59,8 +59,8 @@ let withDefault a rem => switch rem {
 };
 
 let fromResult res => switch res {
-| Result.Ok a => Ready a
-| Result.Error x => Error x
+| StdResult.Ok a => Ready a
+| StdResult.Error x => Error x
 };
 
 
