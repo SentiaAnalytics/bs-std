@@ -6,6 +6,6 @@
   "bsc-flags": ["-bs-super-errors"],
   "bs-dependencies": [],
   "sources": [
-    {"dir": "src", "public": ["Std"]}
+    {"dir": "src", "public": ["Std"], "subdirs": true}
   ]
 }
