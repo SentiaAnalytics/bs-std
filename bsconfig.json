@@ -4,7 +4,6 @@
   "name": "bs-std",
   "version": "0.1.0",
   "bsc-flags": ["-bs-super-errors"],
-  "namespace": true,
   "bs-dependencies": [],
   "sources": [
     {"dir": "src", "public": ["Std"]}
