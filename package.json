@@ -1,5 +1,5 @@
 {
-  "name": "bs-sentia-std",
+  "name": "bs-std",
   "version": "3.0.0",
   "scripts": {
     "clean": "bsb -clean-world",
