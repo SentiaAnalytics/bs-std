@@ -15,6 +15,13 @@ let map3 f opt1 opt2 opt3 =>  switch (opt1, opt2, opt3) {
 | _ => None
 };
 
+let flatten opt => {
+  switch opt {
+  | None => None
+  | Some a => a
+  };
+};
+
 let flatMap f opt => switch opt {
   | None => None
   | Some x => (f x)

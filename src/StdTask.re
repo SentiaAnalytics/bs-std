@@ -42,7 +42,6 @@ make (
 );
 
 let fromLazyPromise f => make (fun fail success => _resolvePromise (f ()) success fail);
-
 let fromOption err opt =>
 switch opt {
 | None => fail err

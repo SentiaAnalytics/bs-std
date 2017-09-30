@@ -21,6 +21,12 @@ let map3 f r1 r2 r3 => switch (r1, r2, r3) {
   | (_, _, Error x) => Error x
 };
 
+let flatten r => {
+  switch r {
+  | Error e => Error e
+  | Ok a => a
+  };
+};
 
 let flatMap f res => switch res {
 | Error x => Error x
@@ -36,11 +42,6 @@ let withDefault a res => switch res {
 let fromOption err opt => switch opt {
 | None => Error err
 | Some a => Ok a
-};
-
-let toOption res => switch res {
-| Error _ => None
-| Ok a => Some a
 };
 
 let isError res => switch res {

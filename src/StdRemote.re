@@ -44,6 +44,15 @@ let map3 f r1 r2 r3 =>
   | (Ready _, Ready _, Error x) => Error x
   };
 
+let flatten r => {
+  switch r {
+  | NotAsked => NotAsked
+  | Pending => Pending
+  | Error e => Error e
+  | Ready a => a
+  };
+};
+
 let flatMap f remote => 
   switch remote {
   | NotAsked => NotAsked
