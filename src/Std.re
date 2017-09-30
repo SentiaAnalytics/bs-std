@@ -3,6 +3,7 @@ module Remote = StdRemote;
 module Result = StdResult;
 module Task = StdTask;
 module List = StdList;
+module String = StdString;
 
 let identity a => a;
 
