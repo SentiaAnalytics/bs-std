@@ -2,9 +2,9 @@ type t 'x 'a;
 
 let make : (('x => unit) => ('a => unit) => unit) => t 'x 'a;
 
-let succeed : 'a => t unit 'a;
+let succeed : 'a => t 'x 'a;
 
-let fail : 'x => t 'x unit;
+let fail : 'x => t 'x 'a;
 
 let map : ('a => 'b) => t 'x 'a => t 'x 'b;
 
