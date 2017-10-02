@@ -3,10 +3,9 @@
 {
   "name": "bs-std",
   "version": "0.1.0",
-  "namespace": true,
   "bsc-flags": ["-bs-super-errors"],
   "bs-dependencies": [],
   "sources": [
-    {"dir": "src", "public": ["Std"], "subdirs": true}
+    {"dir": "src"}
   ]
 }
