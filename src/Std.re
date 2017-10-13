@@ -29,6 +29,65 @@ type result 'x 'a =
   
 type task 'err 'ok = ('err => unit) => ('ok => unit) => unit;
 
+module Option = {
+  let some a => Some a;
+  let none = None;
+  let map f opt => switch opt {
+    | None => None
+    | Some x => Some (f x)
+  };
+  
+  let map2 f opt1 opt2 =>  switch (opt1, opt2) {
+  | (Some a1, Some a2) => Some (f a1 a2)
+  | _ => None
+  };
+  
+  let map3 f opt1 opt2 opt3 =>  switch (opt1, opt2, opt3) {
+  | (Some a1, Some a2, Some a3) => Some (f a1 a2 a3)
+  | _ => None
+  };
+  
+  let flatten opt => {
+    switch opt {
+    | None => None
+    | Some a => a
+    };
+  };
+  
+  let flatMap f opt => switch opt {
+    | None => None
+    | Some x => (f x)
+  };
+  
+  let withDefault defaultValue opt => switch (opt) {
+  | Some x => x
+  | None => defaultValue
+  };
+  
+  let fromResult res => {
+    switch res {
+    | Error _ => None
+    | Ok v => Some v
+    };
+  };
+  
+  let fromRemote res => {
+    switch res {
+    | Ready a => Some a
+    | _ => None
+    };
+  };
+  
+  let isNone opt => switch opt {
+  | None => true
+  | _ => false
+  };
+  
+  let isSome opt => switch opt {
+  | None => false
+  | _ => true
+  };
+};
 
 module Remote = {
   let ready a => Ready a;
@@ -124,7 +183,6 @@ module Remote = {
   };
 
 };
-
 
 module Result = {
   
@@ -411,7 +469,7 @@ module List = {
     };
   
   let any f xs =>
-    find f xs |> StdOption.isSome;
+    find f xs |> Option.isSome;
   
   let all f xs => 
     any (fun x => f x |> not) xs;
@@ -452,7 +510,7 @@ module String = {
   
   let fromChar = String.make 1;
   let fromChars chars =>
-  StdList.foldLeft (fun str ch => str ^ fromChar ch) "" chars;
+    List.foldLeft (fun str ch => str ^ fromChar ch) "" chars;
   
   let fromFloat = string_of_float;
   let fromInt = string_of_int;
@@ -647,62 +705,3 @@ module Task = {
   
 };
 
-module Option = {
-  let some a => Some a;
-  let none = None;
-  let map f opt => switch opt {
-    | None => None
-    | Some x => Some (f x)
-  };
-  
-  let map2 f opt1 opt2 =>  switch (opt1, opt2) {
-  | (Some a1, Some a2) => Some (f a1 a2)
-  | _ => None
-  };
-  
-  let map3 f opt1 opt2 opt3 =>  switch (opt1, opt2, opt3) {
-  | (Some a1, Some a2, Some a3) => Some (f a1 a2 a3)
-  | _ => None
-  };
-  
-  let flatten opt => {
-    switch opt {
-    | None => None
-    | Some a => a
-    };
-  };
-  
-  let flatMap f opt => switch opt {
-    | None => None
-    | Some x => (f x)
-  };
-  
-  let withDefault defaultValue opt => switch (opt) {
-  | Some x => x
-  | None => defaultValue
-  };
-  
-  let fromResult res => {
-    switch res {
-    | Error _ => None
-    | Ok v => Some v
-    };
-  };
-  
-  let fromRemote res => {
-    switch res {
-    | Ready a => Some a
-    | _ => None
-    };
-  };
-  
-  let isNone opt => switch opt {
-  | None => true
-  | _ => false
-  };
-  
-  let isSome opt => switch opt {
-  | None => false
-  | _ => true
-  };
-};
