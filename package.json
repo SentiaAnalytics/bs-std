@@ -1,6 +1,6 @@
 {
   "name": "bs-sentia-std",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "scripts": {
     "clean": "bsb -clean-world",
     "build": "bsb -make-world",
