@@ -267,7 +267,7 @@ module List = {
   let rec foldLeft f acc xs => 
     switch xs {
       | [] => acc
-      | [x, ...xs] => foldLeft f (f acc x) xs
+      | [x, ...xs] => foldLeft f (f x acc) xs
     };
   
   let rec foldRight f acc xs => 
@@ -279,7 +279,7 @@ module List = {
   let rec foldLeft2 f acc xs ys =>
     switch (xs, ys) {
       | ([], _) | (_, []) => acc
-      | ([x, ...xs], [y, ...ys]) => foldLeft2 f (f acc x y) xs ys
+      | ([x, ...xs], [y, ...ys]) => foldLeft2 f (f x y acc) xs ys
     };
   
   let rec foldRight2 f acc xs ys =>
@@ -529,12 +529,19 @@ module Dict = {
     } else {
       [(key, value), ...dict]
     };
+  
+  let keys dict => List.map (fun (k, _) => k) dict;
+  let values dict => List.map (fun (_, v) => v) dict;
+  let iter f => List.iter (uncurry f);
 
-
-  let map f dict => List.map (fun (k, v) => (k, f v)) dict;
+  let map f dict => List.map (fun (k, v) => (k, f k v)) dict;
+  let mapValues f dict => List.map (fun (k, v) => (k, f v)) dict;
   let mapKeys f dict => List.map (fun (k, v) => (f k, v)) dict;
-  let mapPairs f dict => List.map (fun (k, v) => f (k, v)) dict;
 
+  let filter f => List.filter (uncurry f);
+
+  let foldLeft f acc dict => List.foldLeft (fun (k, v) acc => f k v acc) acc dict;
+  let foldRight f acc dict => List.foldRight (fun (k, v) acc => f k v acc) acc dict;
 };
 
 module String = {
@@ -543,7 +550,7 @@ module String = {
   
   let fromChar = String.make 1;
   let fromChars chars =>
-    List.foldLeft (fun str ch => str ^ fromChar ch) "" chars;
+    List.foldLeft (fun ch str => str ^ fromChar ch) "" chars;
   
   let fromFloat = string_of_float;
   let fromInt = string_of_int;
@@ -607,7 +614,6 @@ module String = {
   let append x y => x ^ y;
   
   let join = String.concat;
-  
   
   let iter = String.iter;
   

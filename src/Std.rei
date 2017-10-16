@@ -147,11 +147,11 @@ module List : {
   
   /* fold */
   
-  let foldLeft: ('a => 'b => 'a) => 'a => list 'b => 'a;
+  let foldLeft: ('a => 'b => 'b) => 'b => list 'a => 'b;
   
   let foldRight: ('a => 'b => 'b) => 'b => list 'a => 'b;
   
-  let foldLeft2: ('a => 'b => 'c => 'a) => 'a => list 'b => list 'c => 'a;
+  let foldLeft2: ('a => 'b => 'c => 'c) => 'c => list 'a => list 'b => 'c;
   
   let foldRight2: ('a => 'b => 'c => 'c) => 'c => list 'a => list 'b => 'c;
   
@@ -184,9 +184,15 @@ module Dict : {
   let contains : 'key => dict 'key 'value => bool;
   let set : 'key => 'value =>  dict 'key 'value => dict 'key 'value;
   let setDefault : 'key => 'value  => dict 'key 'value => dict 'key 'value;
-  let map : ('a => 'b ) => dict 'key 'a => dict 'key 'b;
+  let keys : dict 'key 'value => list 'key;
+  let values : dict 'key 'value => list 'value;
+  let iter : ('key => 'value => unit) => dict 'key 'value => unit;
+  let map : ('key => 'a => 'b ) => dict 'key 'a => dict 'key 'b;
+  let mapValues : ('a => 'b) => dict 'key 'a => dict 'key 'b;
   let mapKeys : ('k1 => 'k2) => dict 'k1 'value => dict 'k2 'value;
-  let mapPairs : (('k1, 'v1) => ('k2, 'v2)) => dict 'k1 'v1 => dict 'k2 'v2;
+  let filter : ('key => 'value => bool) => dict 'key 'value => dict 'key 'value;
+  let foldLeft : ('key => 'value  => 'acc => 'acc) => 'acc => dict 'key 'value => 'acc;
+  let foldRight : ('key => 'value  => 'acc => 'acc) => 'acc => dict 'key 'value => 'acc;
 };
 
 module String : {
