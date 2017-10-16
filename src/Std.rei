@@ -134,6 +134,7 @@ module List : {
   
   let flatMap2: ('a => 'b => list 'c) => list 'a => list 'b => list 'c;
   
+  let filterMap : ('a => option 'b) => list 'a => list 'b;
   
   /* iterate */
   

@@ -427,6 +427,14 @@ module List = {
     | ([x, ...xs], [y, ...ys]) => f x y @ flatMap2 f xs ys
     };
   
+  let rec filterMap f xs => 
+    switch xs {
+      | [] => []
+      | [x, ...xs] => switch (f x) {
+        | Some x => [x , ...filterMap f xs] 
+        | None => filterMap f xs
+      }
+    };
   
   /* iterate */
   
