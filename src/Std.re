@@ -29,6 +29,8 @@ type result 'x 'a =
   
 type task 'err 'ok = ('err => unit) => ('ok => unit) => unit;
 
+type dict 'k 'v = list ('k, 'v);
+
 module Option = {
   let some a => Some a;
   let none = None;
@@ -307,11 +309,11 @@ module List = {
   
   /* combining lists*/
   
-  let append x xs => xs @ [x];
+  let cons x xs => xs @ [x];
   
-  let concat xs ys => xs @ ys; 
+  let append xs ys => xs @ ys; 
   
-  let flatten xs => foldLeft concat [] xs;
+  let flatten xs => foldLeft append [] xs;
   
   let rec zip xs ys => 
     switch (xs, ys) {
@@ -504,6 +506,35 @@ module List = {
   
 };
 
+module Dict = {
+
+  let rec get key dict => switch dict {
+  | [] => None
+  | [(k, v), ..._] when k == key => Some v 
+  | [_, ...dict] => get key dict
+  };
+
+  let rec find f dict => switch dict {
+  | [] => None
+  | [(_, v), ..._] when f v => Some v 
+  | [_, ...dict] => find f dict
+  };
+
+  let contains key dict => get key dict |> Option.isSome;
+  let set key value dict => [(key, value), ...(List.filter (fun (k, _) => k != key) dict)];
+  let setDefault key value dict => if (contains key dict) {
+      dict
+    } else {
+      [(key, value), ...dict]
+    };
+
+
+  let map f dict => List.map (fun (k, v) => (k, f v)) dict;
+  let mapKeys f dict => List.map (fun (k, v) => (f k, v)) dict;
+  let mapPairs f dict => List.map (fun (k, v) => f (k, v)) dict;
+
+};
+
 module String = {
   let length = String.length;
   let isEmpty s => s == "";
@@ -571,7 +602,7 @@ module String = {
     | None => ""
     | Some (ch, s) => (reverse s) ^ (fromChar ch)
     };
-  let concat x y => x ^ y;
+  let append x y => x ^ y;
   
   let join = String.concat;
   

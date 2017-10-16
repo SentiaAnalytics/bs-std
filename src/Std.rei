@@ -26,6 +26,9 @@ type result 'x 'a =
   
 type task 'err 'ok;
 
+
+type dict 'key 'value;
+
 module Remote: {
   let ready : 'a => remote 'x 'a;
   
@@ -83,9 +86,9 @@ module List : {
   
   /* combining lists*/
   
-  let append: 'a => list 'a => list 'a;
+  let cons: 'a => list 'a => list 'a;
   
-  let concat: list 'a =>  list 'a => list 'a;
+  let append: list 'a =>  list 'a => list 'a;
   
   let flatten: list (list 'a) => list 'a;
   
@@ -173,6 +176,17 @@ module List : {
   
 };
 
+module Dict : {
+  let get : 'key => dict 'key 'value => option 'value;
+  let find : ('value => bool) => dict 'key 'value => option 'value;
+  let contains : 'key => dict 'key 'value => bool;
+  let set : 'key => 'value =>  dict 'key 'value => dict 'key 'value;
+  let setDefault : 'key => 'value  => dict 'key 'value => dict 'key 'value;
+  let map : ('a => 'b ) => dict 'key 'a => dict 'key 'b;
+  let mapKeys : ('k1 => 'k2) => dict 'k1 'value => dict 'k2 'value;
+  let mapPairs : (('k1, 'v1) => ('k2, 'v2)) => dict 'k1 'v1 => dict 'k2 'v2;
+};
+
 module String : {
   let length: string => int;
   /* Return the length (number of characters) of the given string. */
@@ -237,7 +251,7 @@ module String : {
   
   let uncons: string => option (char, string);
   
-  let concat : string => string => string;
+  let append : string => string => string;
   
   let join: string => list string => string;
   
@@ -304,7 +318,6 @@ module Task : {
 module Option : {
   let some : 'a => option 'a; 
   /** returns an optional with the value 'a */
-  
   
   let none : option 'a;
   let map : ('a => 'b) =>  option 'a => option 'b;
