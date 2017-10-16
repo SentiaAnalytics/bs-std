@@ -508,6 +508,7 @@ module List = {
 
 module Dict = {
 
+  let empty = [];
   let fromList a => a;
   let rec get key dict => switch dict {
   | [] => None
