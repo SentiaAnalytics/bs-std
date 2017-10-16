@@ -177,6 +177,7 @@ module List : {
 };
 
 module Dict : {
+  let fromList : list ('key, 'value) => dict 'key 'value;
   let get : 'key => dict 'key 'value => option 'value;
   let find : ('value => bool) => dict 'key 'value => option 'value;
   let contains : 'key => dict 'key 'value => bool;
