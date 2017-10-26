@@ -29,6 +29,8 @@ type task 'err 'ok;
 
 type dict 'key 'value;
 
+
+
 module Remote: {
   let ready : 'a => remote 'x 'a;
   
@@ -54,6 +56,7 @@ module Remote: {
   let isPending : remote 'x 'a => bool;
   let isFailed : remote 'x 'a => bool;
   let isReady : remote 'x 'a => bool;
+  let encode : ('x => Js.Json.t) => ('a => Js.Json.t) => remote 'x 'a => Js.Json.t;
 };
 
 module Result: {
@@ -67,6 +70,7 @@ module Result: {
   let fromOption : 'x => option 'a =>  result 'x 'a;
   let isError : result 'x 'a => bool;
   let isOk : result 'x 'a => bool;
+  let encode : ('x => Js.Json.t) => ('a => Js.Json.t) => result 'x 'a => Js.Json.t;
 };
 
 module List : {
@@ -174,6 +178,9 @@ module List : {
   let split: list ('a, 'b) => (list 'a, list 'b);
   
   let sort: ('a => 'a => int) => list 'a => list 'a;
+
+  let encode : ('a => Js.Json.t) => list 'a => Js.Json.t;
+  let decode : (Js.Json.t => 'a) => Js.Json.t => list 'a;
   
 };
 
@@ -194,6 +201,9 @@ module Dict : {
   let filter : ('key => 'value => bool) => dict 'key 'value => dict 'key 'value;
   let foldLeft : ('key => 'value  => 'acc => 'acc) => 'acc => dict 'key 'value => 'acc;
   let foldRight : ('key => 'value  => 'acc => 'acc) => 'acc => dict 'key 'value => 'acc;
+
+  let encode : ('key => Js.Dict.key) => ('value => Js.Json.t) => dict 'key 'value => Js.Json.t;
+  let decode : (Js.Dict.key => 'key) => (Js.Json.t => 'value) => Js.Json.t => dict 'key 'value;
 };
 
 module String : {
@@ -291,6 +301,9 @@ module String : {
   let lastIndexFrom: int => char => string => option int;
   
   let contains: char => string => bool;
+
+  let encode : string => Js.Json.t;
+  let decode :Js.Json.t => string;
   
 };
 
@@ -340,4 +353,9 @@ module Option : {
   let fromRemote : remote 'x 'a => option 'a;
   let isNone : option 'a => bool;
   let isSome : option 'a => bool;
+
+  let encode : ('a => Js.Json.t) => option 'a => Js.Json.t;
+  let decode : (Js.Json.t => 'a) => Js.Json.t => option 'a;
 };
+
+let decode : (Js.Json.t => 'a) => Js.Json.t => result string 'a;

@@ -31,6 +31,8 @@ type task 'err 'ok = ('err => unit) => ('ok => unit) => unit;
 
 type dict 'k 'v = list ('k, 'v);
 
+
+
 module Option = {
   let some a => Some a;
   let none = None;
@@ -80,15 +82,18 @@ module Option = {
     };
   };
   
-  let isNone opt => switch opt {
+  let isNone = fun
   | None => true
-  | _ => false
-  };
+  | _ => false;
   
-  let isSome opt => switch opt {
+  let isSome = fun
   | None => false
-  | _ => true
-  };
+  | _ => true;
+
+  let encode encoder => fun
+  | None => Js.Json.null 
+  | Some v => encoder v;
+  let decode = Json.Decode.optional;
 };
 
 module Remote = {
@@ -184,6 +189,16 @@ module Remote = {
   | _ => false
   };
 
+  let encode failEncoder successEncoder r => {
+    open Json.Encode;
+    switch r {
+    | Ready r => successEncoder r
+    | Failed err =>  failEncoder err
+    | NotAsked =>  string "NotAsked"
+    | Pending =>  string "Pending"
+    };
+  };
+
 };
 
 module Result = {
@@ -238,6 +253,10 @@ module Result = {
   | Ok _ => true
   | _ => false
   };
+
+  let encode encodeError encodeOk => fun
+  | Error e => encodeError e
+  | Ok v => encodeOk v;
   
   
 };
@@ -511,6 +530,9 @@ module List = {
   }; 
   
   let sort = List.sort;
+
+  let encode = Json.Encode.list;
+  let decode = Json.Decode.list;
   
 };
 
@@ -550,6 +572,13 @@ module Dict = {
 
   let foldLeft f acc dict => List.foldLeft (fun (k, v) acc => f k v acc) acc dict;
   let foldRight f acc dict => List.foldRight (fun (k, v) acc => f k v acc) acc dict;
+
+  let encode encodeKey encodeValue dict => dict |> mapKeys encodeKey |> mapValues encodeValue |> Json.Encode.object_;
+  let decode decodeKey decodeValue json => 
+    json |> Json.Decode.dict decodeValue
+      |> Js.Dict.entries
+      |> Array.to_list
+      |> mapKeys decodeKey;
 };
 
 module String = {
@@ -692,6 +721,9 @@ module String = {
   
   let lines = split "\n";
   let words = split " ";
+
+  let encode = Json.Encode.string;
+  let decode = Json.Decode.string;
   
 };
 
@@ -752,3 +784,9 @@ module Task = {
   
 };
 
+let decode decoder json => {
+  try (Ok (json |> decoder)) {
+  | Js.Exn.Error err => Error (Js.Exn.message err |> Option.withDefault "Could not parse JSON")
+  | Json_decode.DecodeError err => Error err
+  }
+};
