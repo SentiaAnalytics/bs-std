@@ -359,3 +359,4 @@ module Option : {
 };
 
 let decodeJSON : (Js.Json.t => 'a) => Js.Json.t => result string 'a;
+let parseJSON :  string => result string Js.Json.t;

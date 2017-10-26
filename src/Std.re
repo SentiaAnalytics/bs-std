@@ -786,7 +786,11 @@ module Task = {
 
 let decodeJSON decoder json => {
   try (Ok (json |> decoder)) {
-  | Js.Exn.Error err => Error (Js.Exn.message err |> Option.withDefault "Could not parse JSON")
   | Json_decode.DecodeError err => Error err
+  }
+};
+let parseJSON jsonString => {
+  try (Ok (jsonString |> Js.Json.parseExn)) {
+  | Js.Exn.Error err => Error (Js.Exn.message err |> Option.withDefault "Could not parse JSON")
   }
 };
