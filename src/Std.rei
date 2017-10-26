@@ -358,4 +358,4 @@ module Option : {
   let decode : (Js.Json.t => 'a) => Js.Json.t => option 'a;
 };
 
-let decode : (Js.Json.t => 'a) => Js.Json.t => result string 'a;
+let decodeJSON : (Js.Json.t => 'a) => Js.Json.t => result string 'a;
