@@ -6,6 +6,6 @@
   "bsc-flags": ["-bs-super-errors"],
   "bs-dependencies": ["bs-json"],
   "sources": [
-    {"dir": "src"}
+    {"dir": "src", "public": ["Std"]}
   ]
 }
