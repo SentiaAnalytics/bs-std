@@ -41,6 +41,7 @@ let parseJSON = (jsonString) =>
         | Some(err) => Error(err)
     };
 };
+module Async = Async;
 module Option = {
   
   let some = (a) => Some(a);
