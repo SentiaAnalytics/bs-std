@@ -162,7 +162,7 @@ module Result : {
     let fromOption: ('x, option('a)) => result('a, 'x);
     let isError: result('a, 'x) => bool;
     let isOk: result('a, 'x) => bool;
-    let encode: ('x => Js.Json.t, 'a => Js.Json.t, result('a, 'x)) => Js.Json.t;
+    let encode: ('a => Js.Json.t, 'x => Js.Json.t, result('a, 'x)) => Js.Json.t;
 };
 
 module String : {

@@ -615,7 +615,7 @@ module Result = {
     | _ => false
     };
   
-  let encode = (encodeError, encodeOk) =>
+  let encode = (encodeOk, encodeError) =>
     fun
     | Error(e) => encodeError(e)
     | Ok(v) => encodeOk(v);
