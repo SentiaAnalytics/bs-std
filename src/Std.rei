@@ -30,7 +30,6 @@ let decodeJSON : (Js.Json.t => 'a) => Js.Json.t => result('a, string);
 
 let parseJSON : string => result(Js.Json.t, string);
 module Async : {
-    type async('a) = ('a => unit) => unit;
     let none : async('a);
     let make : 'a => async('a);
     let map : ('a => 'b) => async('a) => async('b);
