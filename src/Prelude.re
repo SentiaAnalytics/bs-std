@@ -1,17 +1,14 @@
+include Js.Result;
 type async('a) = ('a => unit) => unit;
 
-type remote('x, 'a) = 
+type remote('a, 'x) = 
   | NotAsked
   | Pending
   | Failed('x)
   | Ready('a);
   
-type result('x, 'a) =
-  | Error('x)
-  | Ok('a);
+type result('a, 'b) = Js.Result.t('a, 'b) = | Ok('a) | Error('b);
   
-type task('err, 'ok) = ('err => unit) => ('ok => unit) => unit;
-
 type dict('k, 'v) = list(('k, 'v));
 let identity = (a) => a;
 

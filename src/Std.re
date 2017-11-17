@@ -1,5 +1,6 @@
 
 include Prelude;
+module Async = Async;
 
 module Option = {
   include Option;
@@ -13,10 +14,6 @@ module Result = {
   include Result;
 };
 
-module Async = {
-  include Async;
-};
-
 module List = {
   include StdList;
 };
@@ -27,8 +24,4 @@ module Dict = {
 
 module String = {
   include StdString;
-};
-
-module Task = {
-  include Task;
 };

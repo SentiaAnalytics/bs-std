@@ -1,5 +1,4 @@
 open Prelude;
-
 let ready = (a) => Ready(a);
 
 let error = (x) => Failed(x);
@@ -99,7 +98,7 @@ let isReady = (remote) =>
   | _ => false
   };
 
-let encode = (failEncoder, successEncoder, r) =>
+let encode = (successEncoder, failEncoder, r) =>
   Json.Encode.(
     switch r {
     | Ready(r) => successEncoder(r)

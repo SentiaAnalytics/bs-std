@@ -14,61 +14,49 @@ let uncurry: (('a, 'b) => 'c, ('a, 'b)) => 'c;
 
 let tap: ('a => unit, 'a) => 'a;
 
-type remote('x, 'a) =
+type remote('a, 'x) =
   | NotAsked
   | Pending
   | Failed('x)
   | Ready('a);
 
-type result('x, 'a) =
-  | Error('x)
-  | Ok('a);
+type result('a, 'b) = Js.Result.t('a, 'b) = | Ok('a) | Error('b);
 
 type async('a) = ('a => unit) => unit;
-
-type task('err, 'ok);
 
 type dict('key, 'value);
 
 module Remote: {
-  let ready: 'a => remote('x, 'a);
-  let error: 'x => remote('x, 'a);
-  let pending: remote('x, 'a);
-  let notAsked: remote('x, 'a);
-  let map: ('a => 'b, remote('x, 'a)) => remote('x, 'b);
-  let map2: (('a, 'b) => 'c, remote('x, 'a), remote('x, 'b)) => remote('x, 'c);
-  let map3: (('a, 'b, 'c) => 'd, remote('x, 'a), remote('x, 'b), remote('x, 'c)) => remote('x, 'd);
-  let flatten: remote('x, remote('x, 'a)) => remote('x, 'a);
-  let flatMap: ('a => remote('x, 'b), remote('x, 'a)) => remote('x, 'b);
-  let withDefault: ('a, remote('x, 'a)) => 'a;
-  let fromResult: result('x, 'a) => remote('x, 'a);
-  let fromOption: option('a) => remote('x, 'a);
-  let isNotAsked: remote('x, 'a) => bool;
-  let isPending: remote('x, 'a) => bool;
-  let isFailed: remote('x, 'a) => bool;
-  let isReady: remote('x, 'a) => bool;
-  let encode: ('x => Js.Json.t, 'a => Js.Json.t, remote('x, 'a)) => Js.Json.t;
-};
-module Async : {
-  let none : async('a);
-  let make : 'a => async('a);
-  let map : ('a => 'b) => async('a) => async('b);
-  let flatten: async(async('a)) => async('a);
-  let flatMap : ('a => async('b)) => async('a) => async('b);
-  let fromPromise: (unit => Js.Promise.t('a)) => async(result('x, 'a));
+  let ready: 'a => remote('a, 'x);
+  let error: 'x => remote('a, 'x);
+  let pending: remote('a, 'x);
+  let notAsked: remote('a, 'x);
+  let map: ('a => 'b, remote('a, 'x)) => remote('b, 'x);
+  let map2: (('a, 'b) => 'c, remote('a, 'x), remote('b, 'x)) => remote('c, 'x);
+  let map3: (('a, 'b, 'c) => 'd, remote('a, 'x), remote('b, 'x), remote('c, 'x)) => remote('d, 'x);
+  let flatten: remote(remote('a, 'x), 'x) => remote('a, 'x);
+  let flatMap: ('a => remote('b, 'x), remote('a, 'x)) => remote('b, 'x);
+  let withDefault: ('a, remote('a, 'x)) => 'a;
+  let fromResult: result('a, 'x) => remote('a, 'x);
+  let fromOption: option('a) => remote('a, 'x);
+  let isNotAsked: remote('a, 'x) => bool;
+  let isPending: remote('a, 'x) => bool;
+  let isFailed: remote('a, 'x) => bool;
+  let isReady: remote('a, 'x) => bool;
+  let encode: ('a => Js.Json.t, 'x => Js.Json.t, remote('a, 'x)) => Js.Json.t;
 };
 
 module Result: {
-  let map: ('a => 'b, result('x, 'a)) => result('x, 'b);
-  let map2: (('a, 'b) => 'c, result('x, 'a), result('x, 'b)) => result('x, 'c);
-  let map3: (('a, 'b, 'c) => 'd, result('x, 'a), result('x, 'b), result('x, 'c)) => result('x, 'd);
-  let flatten: result('x, result('x, 'a)) => result('x, 'a);
-  let flatMap: ('a => result('x, 'b), result('x, 'a)) => result('x, 'b);
-  let withDefault: ('a, result('x, 'a)) => 'a;
-  let fromOption: ('x, option('a)) => result('x, 'a);
-  let isError: result('x, 'a) => bool;
-  let isOk: result('x, 'a) => bool;
-  let encode: ('x => Js.Json.t, 'a => Js.Json.t, result('x, 'a)) => Js.Json.t;
+  let map: ('a => 'b, result('a, 'x)) => result('b, 'x);
+  let map2: (('a, 'b) => 'c, result('a, 'x), result('b, 'x)) => result('c, 'x);
+  let map3: (('a, 'b, 'c) => 'd, result('a, 'x), result('b, 'x), result('c, 'x)) => result('d, 'x);
+  let flatten: result(result('a, 'x), 'x) => result('a, 'x);
+  let flatMap: ('a => result('b, 'x), result('a, 'x)) => result('b, 'x);
+  let withDefault: ('a, result('a, 'x)) => 'a;
+  let fromOption: ('x, option('a)) => result('a, 'x);
+  let isError: result('a, 'x) => bool;
+  let isOk: result('a, 'x) => bool;
+  let encode: ('x => Js.Json.t, 'a => Js.Json.t, result('a, 'x)) => Js.Json.t;
 };
 
 module List: {
@@ -200,22 +188,6 @@ module String: {
   let decode: Js.Json.t => string;
 };
 
-module Task: {
-  let make: (('x => unit, 'a => unit) => unit) => task('x, 'a);
-  let succeed: 'a => task('x, 'a);
-  let fail: 'x => task('x, 'a);
-  let map: ('a => 'b, task('x, 'a)) => task('x, 'b);
-  let map2: (('a, 'b) => 'c, task('x, 'a), task('x, 'b)) => task('x, 'c);
-  let map3: (('a, 'b, 'c) => 'd, task('x, 'a), task('x, 'b), task('x, 'c)) => task('x, 'd);
-  let biMap: ('x => 'y, 'a => 'b, task('x, 'a)) => task('y, 'b);
-  let flatMap: ('a => task('x, 'b), task('x, 'a)) => task('x, 'b);
-  let fold: ('x => 'b, 'a => 'b, task('x, 'a)) => task(unit, 'b);
-  let fromResult: result('x, 'a) => task('x, 'a);
-  let fromOption: ('x, option('a)) => task('x, 'a);
-  let fork: ('x => unit, 'a => unit, task('x, 'a)) => unit;
-  let fromLazyPromise: (unit => Js.Promise.t('a)) => task('x, 'a);
-};
-
 module Option: {
   let some: 'a => option('a);
 
@@ -227,14 +199,14 @@ module Option: {
   let flatten: option(option('a)) => option('a);
   let flatMap: ('a => option('b), option('a)) => option('b);
   let withDefault: ('a, option('a)) => 'a;
-  let fromResult: result('x, 'a) => option('a);
-  let fromRemote: remote('x, 'a) => option('a);
+  let fromResult: result('a, 'x) => option('a);
+  let fromRemote: remote('a, 'x) => option('a);
   let isNone: option('a) => bool;
   let isSome: option('a) => bool;
   let encode: ('a => Js.Json.t, option('a)) => Js.Json.t;
   let decode: (Js.Json.t => 'a, Js.Json.t) => option('a);
 };
 
-let decodeJSON: (Js.Json.t => 'a, Js.Json.t) => result(string, 'a);
+let decodeJSON: (Js.Json.t => 'a, Js.Json.t) => result('a, string);
 
-let parseJSON: string => result(string, Js.Json.t);
+let parseJSON: string => result(Js.Json.t, string);

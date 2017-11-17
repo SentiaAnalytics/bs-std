@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3,
-  "bs-dependencies": ["bs-json"],
+  "bs-dependencies": ["bs-json", "bs-async"],
   "sources": [
     {"dir": "src", "public": ["Std"]}
   ]
