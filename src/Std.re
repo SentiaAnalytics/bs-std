@@ -400,7 +400,7 @@ module Dict = {
   
   let contains = (key, dict) => get(key, dict) |> Option.isSome;
   
-  let set = (key, value, dict) => [(key, value), ...StdList.filter(((k, _)) => k != key, dict)];
+  let set = (key, value, dict) => [(key, value), ...List.filter(((k, _)) => k != key, dict)];
   
   let setDefault = (key, value, dict) =>
     if (contains(key, dict)) {
@@ -409,23 +409,23 @@ module Dict = {
       [(key, value), ...dict]
     };
   
-  let keys = (dict) => StdList.map(((k, _)) => k, dict);
+  let keys = (dict) => List.map(((k, _)) => k, dict);
   
-  let values = (dict) => StdList.map(((_, v)) => v, dict);
+  let values = (dict) => List.map(((_, v)) => v, dict);
   
-  let iter = (f) => StdList.iter(uncurry(f));
+  let iter = (f) => List.iter(uncurry(f));
   
-  let map = (f, dict) => StdList.map(((k, v)) => (k, f(k, v)), dict);
+  let map = (f, dict) => List.map(((k, v)) => (k, f(k, v)), dict);
   
-  let mapValues = (f, dict) => StdList.map(((k, v)) => (k, f(v)), dict);
+  let mapValues = (f, dict) => List.map(((k, v)) => (k, f(v)), dict);
   
-  let mapKeys = (f, dict) => StdList.map(((k, v)) => (f(k), v), dict);
+  let mapKeys = (f, dict) => List.map(((k, v)) => (f(k), v), dict);
   
-  let filter = (f) => StdList.filter(uncurry(f));
+  let filter = (f) => List.filter(uncurry(f));
   
-  let foldLeft = (f, acc, dict) => StdList.foldLeft(((k, v), acc) => f(k, v, acc), acc, dict);
+  let foldLeft = (f, acc, dict) => List.foldLeft(((k, v), acc) => f(k, v, acc), acc, dict);
   
-  let foldRight = (f, acc, dict) => StdList.foldRight(((k, v), acc) => f(k, v, acc), acc, dict);
+  let foldRight = (f, acc, dict) => List.foldRight(((k, v), acc) => f(k, v, acc), acc, dict);
   
   let encode = (encodeKey, encodeValue, dict) =>
     dict |> mapKeys(encodeKey) |> mapValues(encodeValue) |> Json.Encode.object_;
@@ -620,7 +620,7 @@ module String = {
   
   let fromChar = String.make(1);
   
-  let fromChars = (chars) => StdList.foldLeft((ch, str) => str ++ fromChar(ch), "", chars);
+  let fromChars = (chars) => List.foldLeft((ch, str) => str ++ fromChar(ch), "", chars);
   
   let fromFloat = string_of_float;
   

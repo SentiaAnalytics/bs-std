@@ -50,7 +50,6 @@ module Option : {
 };
 
 module List : {
-    open Prelude;
     let length: list('a) => int;
     let isEmpty: list('a) => bool;
     let reverse: list('a) => list('a);
