@@ -3,15 +3,15 @@ include Prelude;
 module Async = Async;
 
 module Option = {
-  include Option;
+  include StdOption;
 };
 
 module Remote = {
-  include Remote;
+  include StdRemote;
 };
 
 module Result = {
-  include Result;
+  include StdResult;
 };
 
 module List = {
@@ -19,7 +19,7 @@ module List = {
 };
 
 module Dict = {
-  include Dict;
+  include StdDict;
 };
 
 module String = {
