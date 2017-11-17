@@ -35,6 +35,7 @@ module Async : {
     let map : ('a => 'b) => async('a) => async('b);
     let flatten: async(async('a)) => async('a);
     let flatMap : ('a => async('b)) => async('a) => async('b);
+    let fromPromise : (unit => Js.Promise.t('a)) => async(result('a, 'x));
 };
 module Option : {
     let some: 'a => option('a);
