@@ -236,7 +236,7 @@ module List =  {
   let rec drop = (count, xs) =>
     switch (count, xs) {
     | (_, []) => []
-    | (i, _) when i <= 0 => []
+    | (i, _) when i <= 0 => xs
     | (count, [_, ...xs]) => drop(count - 1, xs)
     };
 
